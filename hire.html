@@ -1,0 +1,242 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hire a licensed investigator from ShadowLight Investigations for discreet, professional services.">
+  <meta name="keywords" content="hire private investigator, ShadowLight Investigations, investigation services">
+  <title>Hire an Investigator - ShadowLight Investigations</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      background-color: #f0f0f0;
+    }
+    nav {
+      background-color: #333;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      color: #ccc;
+    }
+    .content {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .content img {
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+    }
+    .content h1, .content h2 {
+      margin-bottom: 1rem;
+    }
+    .content p, .content ul, .content ol {
+      margin-bottom: 1rem;
+    }
+    .content ul, .content ol {
+      margin-left: 2rem;
+    }
+    .content ul {
+      list-style: disc;
+    }
+    .content ol {
+      list-style: decimal;
+    }
+    .form-section {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-top: 2rem;
+    }
+    .form-section iframe {
+      width: 100%;
+      height: 800px;
+      border: none;
+    }
+    footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+    footer a {
+      color: #fff;
+      text-decoration: underline;
+    }
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        text-align: center;
+      }
+      .form-section iframe {
+        height: 600px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="hire.html">Hire an Investigator</a></li>
+      <li><a href="become-investigator.html">Become an Investigator</a></li>
+      <li><a href="investigator-login.html">Investigator Login</a></li>
+    </ul>
+  </nav>
+  <section class="content">
+    <img src="https://images.unsplash.com/photo-1598449935381-54511437c927?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Modern cityscape with reflective building at dusk">
+    <h1>What to Know Before Hiring Our Investigators</h1>
+    <p>At ShadowLight Investigations, transparency and trust are the foundation of our client relationships. Below is essential information to ensure a smooth, effective partnership.</p>
+    <h2>Key Information</h2>
+    <ol>
+      <li><strong>Legal Compliance</strong>:
+        <ul>
+          <li>All investigations comply with state and federal laws. We avoid illegal practices (e.g., hacking, wiretapping, trespassing).</li>
+          <li>Evidence is court-admissible and ethically sourced.</li>
+        </ul>
+      </li>
+      <li><strong>Confidentiality Assurance</strong>:
+        <ul>
+          <li>Your privacy is paramount, protected by strict NDAs and encrypted communications.</li>
+          <li>Case details are never shared with third parties.</li>
+        </ul>
+      </li>
+      <li><strong>Scope & Limitations</strong>:
+        <ul>
+          <li><strong>We Can</strong>:
+            <ul>
+              <li>Perform background checks using public records and licensed databases.</li>
+              <li>Conduct surveillance in public spaces or with proper authorization.</li>
+              <li>Trace digital footprints legally (e.g., social media, financial trails).</li>
+            </ul>
+          </li>
+          <li><strong>We Cannot</strong>:
+            <ul>
+              <li>Access private accounts (e.g., bank, email) without legal consent.</li>
+              <li>Guarantee specific outcomes (e.g., proof of infidelity, locating a person).</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>Pricing & Fees</strong>:
+        <ul>
+          <li>Free initial consultation to discuss your case.</li>
+          <li>Transparent billing: Costs vary by case complexity (hourly rates or flat fees).</li>
+          <li>Average hourly rate: $75–$150, depending on investigator expertise.</li>
+          <li>Retainer fees may apply for long-term cases.</li>
+          <li>No hidden charges; all costs outlined upfront with written approval for extras.</li>
+        </ul>
+      </li>
+      <li><strong>Timeline Expectations</strong>:
+        <ul>
+          <li>Cases range from 24 hours to several weeks, depending on evidence availability, subject cooperation, or legal permissions.</li>
+          <li>Urgent cases may incur rush fees.</li>
+        </ul>
+      </li>
+      <li><strong>Client Responsibilities</strong>:
+        <ul>
+          <li>Provide accurate details (e.g., full names, last known addresses, photos).</li>
+          <li>Disclose potential risks (e.g., subject’s violent history, legal restrictions).</li>
+          <li>Avoid interfering with the investigation (e.g., confronting the subject).</li>
+        </ul>
+      </li>
+      <li><strong>Ethical Standards</strong>:
+        <ul>
+          <li>We prioritize integrity and may decline unethical or unlawful cases.</li>
+          <li>Child custody and infidelity cases are handled with sensitivity and objectivity.</li>
+        </ul>
+      </li>
+      <li><strong>Reporting & Communication</strong>:
+        <ul>
+          <li>Weekly updates via your preferred method (email, phone, secure portal).</li>
+          <li>Final reports include photos, videos (if applicable), and detailed summaries.</li>
+          <li>24/7 emergency line for urgent developments.</li>
+        </ul>
+      </li>
+      <li><strong>Post-Investigation Support</strong>:
+        <ul>
+          <li>Consultations for legal action or next steps (e.g., sharing evidence with attorneys).</li>
+          <li>Secure storage of case files for 90 days (extendable upon request).</li>
+        </ul>
+      </li>
+    </ol>
+    <h2>Client Confirmation</h2>
+    <p>By proceeding, you confirm:</p>
+    <ul>
+      <li>You have read and agree to our terms of service.</li>
+      <li>All provided information is truthful and legally obtained.</li>
+    </ul>
+    <p><strong>Ready to begin?</strong> Fill out the form below, and a licensed investigator will contact you within 1 business hour. Your journey to the truth starts here—with clarity, integrity, and absolute discretion.</p>
+    <div class="form-section">
+      <h2>Inquiry Form</h2>
+      <p>All information is encrypted and never shared.</p>
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScAvuidtxzKdWSxtb4dgvYfrp_JkDQ-lbG6VDHS3xhEB4DaeQ/viewform?embedded=true" title="Hire an Investigator Inquiry Form"></iframe>
+    </div>
+  </section>
+  <footer>
+    <p>Contact us at <a href="mailto:info@sampleinvestigation.com">info@sampleinvestigation.com</a> | © 2025 ShadowLight Investigations</p>
+  </footer>
+</body>
+</html>

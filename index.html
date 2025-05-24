@@ -1,0 +1,198 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ShadowLight Investigations offers discreet, expert private investigation services with advanced technology.">
+  <meta name="keywords" content="private investigation, detective agency, ShadowLight Investigations, hire investigator">
+  <title>ShadowLight Investigations - Home</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      background-color: #f0f0f0;
+    }
+    nav {
+      background-color: #333;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      color: #ccc;
+    }
+    .hero {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1653361774259-77082d5e3015?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); 
+      background-size: cover;
+      background-position: center; 
+      color: #fff;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .cta-button {
+      background-color: #007bff;
+      color: #fff;
+      padding: 1rem 2rem;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+    .cta-button:hover {
+      background-color: #0056b3;
+    }
+    .content {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .content h2 {
+      margin-bottom: 1rem;
+    }
+    .content ul {
+      list-style: disc;
+      margin-left: 2rem;
+      margin-bottom: 1rem;
+    }
+    footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+    footer a {
+      color: #fff;
+      text-decoration: underline;
+    }
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        text-align: center;
+      }
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="hire.html">Hire an Investigator</a></li>
+      <li><a href="become-investigator.html">Become an Investigator</a></li>
+      <li><a href="investigator-login.html">Investigator Login</a></li>
+    </ul>
+  </nav>
+  <section class="hero">
+    <h1>ShadowLight Investigations</h1>
+    <p>Uncovering Truth, Delivering Clarity</p>
+    <a href="hire.html" class="cta-button" aria-label="Hire an Investigator">Hire an Investigator</a>
+  </section>
+  <section class="content">
+    <h2>About Us</h2>
+    <p>At ShadowLight Investigations, we provide discreet, expert solutions for personal and corporate challenges. Combining advanced technology, seasoned expertise, and unwavering ethics, we tackle cases ranging from sensitive family matters to high-stakes corporate disputes.</p>
+    <h2>Core Services</h2>
+    <ul>
+      <li>Background Checks & Due Diligence: Screen employees, partners, or potential investments.</li>
+      <li>Surveillance & Infidelity Investigations: Gather evidence with precision and discretion.</li>
+      <li>Missing Persons & Skip Tracing: Locate individuals quickly, nationwide.</li>
+      <li>Corporate Fraud & IP Theft: Uncover embezzlement, leaks, or trade secret theft.</li>
+      <li>Digital Forensics: Recover deleted data, trace cyber threats, or investigate online activity.</li>
+      <li>Insurance Fraud Claims: Validate claims to protect businesses or individuals.</li>
+      <li>Child Custody & Covert Monitoring: Ensure child safety with legal, ethical surveillance.</li>
+      <li>Asset Searches & Recovery: Track hidden finances or property for legal disputes.</li>
+      <li>Undercover Operations: Infiltrate organizations to expose internal misconduct.</li>
+      <li>GPS Tracking & Activity Reports: Monitor movements legally for peace of mind.</li>
+    </ul>
+    <h2>Why Choose Us?</h2>
+    <ul>
+      <li>100% Confidentiality: Your privacy is our top priority.</li>
+      <li>Fast, Ethical Results: Actionable, court-admissible evidence without shortcuts.</li>
+      <li>24/7 Support: Direct access to your investigator, anytime.</li>
+      <li>Nationwide Reach: Licensed to operate across all 50 states.</li>
+      <li>Custom Strategies: Tailored solutions for unique cases.</li>
+    </ul>
+  </section>
+  <footer>
+    <p>Contact us at <a href="mailto:info@sampleinvestigation.com">info@sampleinvestigation.com</a> | © 2025 ShadowLight Investigations</p>
+  </footer>
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>
